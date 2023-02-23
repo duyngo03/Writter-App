@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>WYSIWYG editor với nicEditor</title>  
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+  <link rel="stylesheet" href="main.css">
+  <script type="text/javascript">
+   
+  bkLib.onDomLoaded(function() {
+        new nicEditor({maxHeight : 200}).panelInstance('area');
+  });
+  </script>
+</head>
+<body>
+<div id="sample">
+  <!-- <h4>Simple textarea</h4>   -->
+  <textarea name="area" id="area" style="width:70%;height:200px; margin: 10px;" ></textarea>
+</div>
+<!-- <textarea class="test"></textarea> -->
+<div class="button">Save</div>
+<!-- <textarea id ="a" oninput="press()"></textarea> -->
+<script src="script.js"></script>
+
+</body>
+</html>
