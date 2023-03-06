@@ -6,13 +6,13 @@
 }
 .side-bar{
     width: 20%;
-    /* background-color: red; */
-    /* text-align: center; */
+    color: white;
     align-items: center;
     background-color: #3985a8;
     display: flex;
     flex-direction: column;
-    gap:50px
+    gap:50px;
+    padding-top: 40px;
 }
 .show{
     width: 80%;
@@ -23,11 +23,15 @@
     text-align: center;
 }
 .tools{
-    height: 10%;
+    cursor: pointer;
+    display: inline-block;
     font-size: 20;
+    align-items: center;
 }
 .last-open{
+    padding-left: 80px;
     width: 80%;
+    background-color: #EEEEEE
 }
 .button{
     float:left;
@@ -39,16 +43,44 @@
     text-shadow: 0 1px #fff;
     padding: 5px 25px;
     cursor:pointer;
+    margin-left: 400px;
 }
 .hidden{
     display: none;
 }
 #area{
-    width:1248%;
-    height:775px; 
-    margin: 10px;
+    width:850px;
+    height:750px;  
+    margin-left: 300px;
+    background-color: white;
 }
 button{
-    width: 20%;
+    width: 100px;
     height: 50px;
+    /* border-radius: 50%; */
+    border: 0px;
+}
+.fileOpen{
+    display: inline-flex;
+    column-gap: 300px;
+    border-color: red;
+    margin-left: 10px;
+    border-bottom: solid;
+    border-top: solid;
+}
+.nicEdit-main{
+    background-color: white;
+}
+.nicEdit-panel{
+    height: 40px;
+}
+.nicEdit-button{
+    height: 40px;
+}
+
+.opened-file{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  align-items: center;
 }
