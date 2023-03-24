@@ -1,43 +1,18 @@
+<!DOCTYPE html>
 <html>
-<head>
-  <title>Writter App</title>  
-  
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-  <!-- <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> -->
-  <script src="nicEdit.js"></script>
-  <link rel="stylesheet" href="main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 
-  
+<head>
+  <link rel="stylesheet" href="main.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.core.css">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="side-bar">
-      <h1>Word</h1>
-      <!-- <div class="tools">
-        <i class="fa-solid fa-house"></i>
-        Home
-      </div> -->
-      <div class="tools" onclick="newPage()">
-        <i class="fa-solid fa-file"></i>
-        New File
-      </div>
-      <!-- <div class="tools">
-      <i class="fa-solid fa-folder-open"></i>
-      Open
-      </div> -->
-    </div>
-    <div class="last-open">
-      <div class="show">
-      </div>
-      <div id="sample" class="hidden" >
-        <textarea  id="area"></textarea>
-        <div class="button">Save</div>
-    </div>
-     
-    </div>
-  </div>
-  <script src="script.js"></script>
+  <div id="editor"></div>
+  <script src="./script.js"></script>
+
+  <div class="button" onclick="handleClick()">Save</div>
 </body>
+
 </html>
