@@ -57,22 +57,25 @@ function handleClick() {
       date: timeOpened,
       download: download
     }
-    localStorage.setItem(`file#${newFile.name}` , JSON.stringify(newFile));
+    localStorage.setItem(`file#${file.name}`, JSON.stringify(newFile));
     notice.remove('hidden');
   } else {
     handleSave();
   }
 }
-var file = localStorage.getItem('file' + location.hash);
-var newFile = {
-  name: JSON.parse(file).name,
-  content: JSON.parse(file).content,
-  date: timeOpened,
-  download: JSON.parse(file).download,
+if (location.hash.trim() != '') {
+  var file = localStorage.getItem('file' + decodeURI(location.hash));
+  var newFile = {
+    name: JSON.parse(file).name,
+    content: JSON.parse(file).content,
+    date: timeOpened,
+    download: JSON.parse(file).download,
+  }
+  var content = JSON.parse(file).content;
+  quill.setContents(content);
+  localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
 }
-var content = JSON.parse(file).content;
-quill.setContents(content);
-localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+
 
 function handleSave() {
   save.remove('hidden')
@@ -93,8 +96,8 @@ function handleSave() {
       if (found) {
         var a = confirm("File's name is EXITED. Do you want to replace this file");
         if (a) {
-          localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
-          localStorage.setItem('files', JSON.stringify(files));
+          // localStorage.setItem(`file${location.hash.trim()}`, JSON.stringify(newFile));
+          // localStorage.setItem('files', JSON.stringify(files));
           notice.remove('hidden');
           save.add('hidden');
           fileName.value = "";
@@ -103,13 +106,12 @@ function handleSave() {
         }
       } else {
         files.push(newFile);
-        localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
-        localStorage.setItem('files', JSON.stringify(files));
         notice.remove('hidden');
         save.add('hidden');
         fileName.value = "";
       }
-
+      localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+      localStorage.setItem('files', JSON.stringify(files));
     } else {
       alert("You must type your file's name");
     }
