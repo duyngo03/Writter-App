@@ -8,11 +8,37 @@
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 </head>
+
 <body>
   <div id="editor"></div>
-  <script src="./script.js"></script>
-
   <div class="button" onclick="handleClick()">Save</div>
+
+
+  <!-- <div class="button" onclick="handleDownload()">Dowload</div> -->
+  <div class="save hidden">
+    <div class="close-btn">&times</div>
+    <div class="form">
+      <h2>Save</h2>
+      <div class="form-element">
+        <label for="fileName">Name</label>
+        <input type="text" id="fileName" placeholder="Type your file name">
+      </div>
+      <div class="check">
+        <div class="form-element">
+          <button >Yes</button>
+        </div>
+        <div class="form-element">
+          <button style="background-color: rgb(64,64,64);">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice hidden">
+    <div class="close-btn">&times</div>
+    <h2>Save success</h2>
+  </div>
 </body>
+<script src="./script.js"></script>
 
 </html>

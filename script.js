@@ -22,34 +22,99 @@ let quill = new Quill("#editor", {
 })
 
 
-var files = [];
+var files = JSON.parse(localStorage.getItem('files')) || [];
+var button = document.querySelector('.button');
+var save = document.querySelector(".save").classList;
+var notice = document.querySelector('.notice').classList;
+var check = document.querySelectorAll(".save .check button");
 
-var button = document.querySelector('.button')
+
+document.querySelectorAll(".close-btn").forEach(ele => {
+  ele.addEventListener('click', () => {
+    save.add('hidden');
+    notice.add('hidden');
+  })
+});
+// exit[0].addEventListener('click', () => {
+//   save.add('hidden');
+// });
+// exit[1].addEventListener('click', () => {
+//   notice.add('hidden');
+// })
+
 let date = new Date();
-let timeOpened = date.getDate().toString() + '/' 
-                + (date.getMonth() + 1).toString() + '/'+ date.getFullYear().toString();
+let timeOpened = date.getDate().toString() + '/'
+  + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString();
+
 function handleClick() {
-  
-  var fileName = prompt("Tên file", "*");
-  if (fileName != null) {
-    alert("Save Success");
+  if (location.hash.trim() != "") {
+    var file = JSON.parse(localStorage.getItem('file' + location.hash));
+    var content = quill.getContents();
+    var download = quill.getText();
+    var newFile = {
+      name: file.name,
+      content: content,
+      date: timeOpened,
+      download: download
+    }
+    localStorage.setItem(`file#${newFile.name}` , JSON.stringify(newFile));
+    notice.remove('hidden');
+  } else {
+    handleSave();
   }
-  var content = quill.getContents();
-  var newFile = {
-    name: fileName,
-    content: content,
-    date : timeOpened,
-  }
-  files.push(newFile);
-  localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
-  localStorage.setItem('files', JSON.stringify(files));
 }
 var file = localStorage.getItem('file' + location.hash);
 var newFile = {
   name: JSON.parse(file).name,
-  content : JSON.parse(file).content,
-  date : timeOpened,
+  content: JSON.parse(file).content,
+  date: timeOpened,
+  download: JSON.parse(file).download,
 }
 var content = JSON.parse(file).content;
 quill.setContents(content);
 localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+
+function handleSave() {
+  save.remove('hidden')
+  check[0].addEventListener('click', () => {
+    var fileName = document.getElementById("fileName");
+
+    if (fileName.value.trim() != "") {
+      var content = quill.getContents();
+      var download = quill.getText();
+      var newFile = {
+        name: fileName.value,
+        content: content,
+        date: timeOpened,
+        download: download
+      }
+
+      const found = files.some(el => el.name === newFile.name);
+      if (found) {
+        var a = confirm("File's name is EXITED. Do you want to replace this file");
+        if (a) {
+          localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+          localStorage.setItem('files', JSON.stringify(files));
+          notice.remove('hidden');
+          save.add('hidden');
+          fileName.value = "";
+        } else {
+          fileName.value = "";
+        }
+      } else {
+        files.push(newFile);
+        localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+        localStorage.setItem('files', JSON.stringify(files));
+        notice.remove('hidden');
+        save.add('hidden');
+        fileName.value = "";
+      }
+
+    } else {
+      alert("You must type your file's name");
+    }
+  })
+  check[1].addEventListener('click', () => {
+    save.add('hidden');
+  });
+}
