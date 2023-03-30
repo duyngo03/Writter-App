@@ -35,12 +35,6 @@ document.querySelectorAll(".close-btn").forEach(ele => {
     notice.add('hidden');
   })
 });
-// exit[0].addEventListener('click', () => {
-//   save.add('hidden');
-// });
-// exit[1].addEventListener('click', () => {
-//   notice.add('hidden');
-// })
 
 let date = new Date();
 let timeOpened = date.getDate().toString() + '/'
@@ -48,40 +42,35 @@ let timeOpened = date.getDate().toString() + '/'
 
 function handleClick() {
   if (location.hash.trim() != "") {
-    var file = JSON.parse(localStorage.getItem('file' + location.hash));
+    // var file = JSON.parse(localStorage.getItem('file' + location.hash));
+    var a = files.filter(ele => ele.name == decodeURI(location.hash).substring(1));
+    console.log(a);
+    var file = a.reduce(
+      (obj, item) => Object.assign(obj, { "name": item.name, "content": item.content, "download": item.download, "date": item.date })
+    )
+    console.log(file.name);
     var content = quill.getContents();
     var download = quill.getText();
     var newFile = {
       name: file.name,
       content: content,
       date: timeOpened,
-      download: download
+      download: download,
     }
-    localStorage.setItem(`file#${file.name}`, JSON.stringify(newFile));
+    files = files.filter(ele => ele.name != decodeURI(location.hash).substring(1));
+    files.push(newFile);
+    localStorage.setItem('files', JSON.stringify(files));
+    // localStorage.setItem(`file#${file.name}`, JSON.stringify(newFile));
     notice.remove('hidden');
   } else {
     handleSave();
   }
 }
-if (location.hash.trim() != '') {
-  var file = localStorage.getItem('file' + decodeURI(location.hash));
-  var newFile = {
-    name: JSON.parse(file).name,
-    content: JSON.parse(file).content,
-    date: timeOpened,
-    download: JSON.parse(file).download,
-  }
-  var content = JSON.parse(file).content;
-  quill.setContents(content);
-  localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
-}
-
 
 function handleSave() {
   save.remove('hidden')
   check[0].addEventListener('click', () => {
     var fileName = document.getElementById("fileName");
-
     if (fileName.value.trim() != "") {
       var content = quill.getContents();
       var download = quill.getText();
@@ -89,15 +78,16 @@ function handleSave() {
         name: fileName.value,
         content: content,
         date: timeOpened,
-        download: download
+        download: download,
       }
-
       const found = files.some(el => el.name === newFile.name);
       if (found) {
         var a = confirm("File's name is EXITED. Do you want to replace this file");
         if (a) {
-          // localStorage.setItem(`file${location.hash.trim()}`, JSON.stringify(newFile));
-          // localStorage.setItem('files', JSON.stringify(files));
+          files = files.filter(ele => ele.name != fileName.value.trim());
+          files.push(newFile);
+          // localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+          localStorage.setItem('files', JSON.stringify(files));
           notice.remove('hidden');
           save.add('hidden');
           fileName.value = "";
@@ -105,13 +95,13 @@ function handleSave() {
           fileName.value = "";
         }
       } else {
-        files.push(newFile);
         notice.remove('hidden');
         save.add('hidden');
         fileName.value = "";
+        files.push(newFile);
+        // localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+        localStorage.setItem('files', JSON.stringify(files));
       }
-      localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
-      localStorage.setItem('files', JSON.stringify(files));
     } else {
       alert("You must type your file's name");
     }
@@ -119,4 +109,35 @@ function handleSave() {
   check[1].addEventListener('click', () => {
     save.add('hidden');
   });
+}
+
+
+
+
+/////////////
+if (location.hash.trim() != '') {
+  // var file = localStorage.getItem('file' + decodeURI(location.hash));
+  var a = files.filter(ele => ele.name == decodeURI(location.hash).substring(1));
+  var file = a.reduce(
+    (obj, item) => Object.assign(obj, { "name": item.name, "content": item.content, "download": item.download, "date": item.date })
+  )
+  // var newFile = {
+  //   name: JSON.parse(file).name,
+  //   content: JSON.parse(file).content,
+  //   date: timeOpened,
+  //   download: JSON.parse(file).download,
+  // }
+  var newFile = {
+    name: file.name,
+    content: file.content,
+    date: timeOpened,
+    download: file.download,
+  }
+  // var content = JSON.parse(file).content;
+    var content = file.content;
+  quill.setContents(content);
+  // localStorage.setItem(`file#${newFile.name}`, JSON.stringify(newFile));
+  files = files.filter(ele => ele.name != file.name);
+  files.push(newFile);
+  localStorage.setItem('files',JSON.stringify(files));
 }
